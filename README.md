@@ -1,12 +1,22 @@
-# Checklist (@inetum-poland/devops-admins)
+# Szkolenie z Reacta
 
-- [ ] .github/CODEOWNERS adjusted
-- [ ] .github/dependabot.yml adjusted
-- [ ] .github/workflows/pre_commit.yml adjusted
-- [ ] .github/workflows/semantic_pr.yml adjusted
-- [ ] .github/workflows/trufflehog.yaml adjusted
-- [ ] .mise.toml adjusted
-- [ ] .pre-commit-config.yaml adjusted
-- [ ] .gitignore adjusted
-- [ ] Add repo to runner group (if needed)
-- [ ] Decide language for issues and pull requests templates (remove \_lang\_ from filenames)
+To jest repozytorium szkoleniowe Inetum.  
+W środku znajdziesz dwa foldery – **backend** i **frontend**.  
+Na tym szkoleniu skupimy się głównie na folderze **frontend**.
+
+---
+
+## Quick Install
+
+Aby szybko zainstalować zależności i uruchomić serwery, użyj naszego skryptu `start.sh`.  
+Skrypt zrobi wszystko za Ciebie – zajmie to około minuty:
+
+```bash
+./start.sh
+```
+
+Jeśli nie chcesz używać skryptu, i chcesz to zrobić tradycyjnie, musisz wejść oddzielnie w katalogi **frontend** i **backend** a następnie uruchomić:
+
+```bash
+pnpm install
+```
