@@ -1,33 +1,99 @@
-import { Button } from "@/components/ui/button";
 import { BadgeDollarSign, Home, Menu, Settings } from "lucide-react";
 import LessonDetails from "./LessonDetails";
+import { useState } from "react";
+import { formatNumber } from "./lib/utils";
+import { MenuItemLinkButton } from "./components/ui/menuItemLinkButton/MenuItemLinkButton";
+import { Button } from "./components/ui/button/button";
+
+export interface MenuItem {
+  id: number;
+  label: string;
+  icon: any;
+  href: string;
+  active: boolean;
+}
 
 export default function App() {
+  const initialMenuItems: MenuItem[] = [
+    {
+      id: 1,
+      label: "Link 1",
+      icon: <Home size={20} />,
+      href: "/",
+      active: true,
+    },
+    {
+      id: 2,
+      label: "Link 2",
+      icon: <Menu size={20} />,
+      href: "/",
+      active: false,
+    },
+    {
+      id: 3,
+      label: "Link 3",
+      icon: <Settings size={20} />,
+      href: "/",
+      active: false,
+    },
+  ];
+
+  const [menuItems, setMenuItems] = useState(initialMenuItems);
+  const [balance, setBalance] = useState<number>(123456789);
+  const [compactMenu, setCompactMenu] = useState<boolean>(false);
+
+  function handleOnClick() {
+    const randomNumber = Math.floor(Math.random() * 100000);
+    setBalance(randomNumber);
+  }
+
+  function handleMenuItemClick(clickedItem: MenuItem) {
+    setMenuItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === clickedItem.id
+          ? { ...item, active: true }
+          : { ...item, active: false }
+      )
+    );
+  }
+
+  let menuClass = "";
+
+  if (compactMenu) {
+    menuClass = "w-32 bg-neutral-900 text-white flex flex-col";
+  } else {
+    menuClass = "w-64 bg-neutral-900 text-white flex flex-col";
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900">
       <div className="flex flex-1">
-        <aside className="w-64 bg-neutral-900 text-white flex flex-col">
+        <aside className={menuClass}>
           <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-800">
-            <span className="text-lg font-semibold">React Training</span>
-            <Button variant="ghost" size="icon" className="text-white">
+            {compactMenu ? (
+              <span className="text-lg font-semibold">RT</span>
+            ) : (
+              <span className="text-lg font-semibold">React Training</span>
+            )}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white"
+              onClick={() => setCompactMenu((prev) => !prev)}
+            >
               <Menu size={20} />
             </Button>
           </div>
           <nav className="flex-1 px-6 py-4 flex flex-col gap-2">
-            <Button
-              variant="ghost"
-              className="bg-white justify-start gap-2 text-black">
-              <Home size={18} />
-              <span className="text-sm">Link 1 - Active</span>
-            </Button>
-            <Button variant="ghost" className="justify-start gap-2 text-white">
-              <Home size={18} />
-              <span className="text-sm">Link 2</span>
-            </Button>
-            <Button variant="ghost" className="justify-start gap-2 text-white">
-              <Home size={18} />
-              <span className="text-sm">Link 3</span>
-            </Button>
+            {menuItems.map((item) => (
+              <MenuItemLinkButton
+                key={item.id}
+                item={item}
+                handleMenuItemClick={handleMenuItemClick}
+                compactMenu={compactMenu}
+              />
+            ))}
           </nav>
         </aside>
 
@@ -36,8 +102,16 @@ export default function App() {
             <div className="flex items-center gap-2 font-medium">
               <BadgeDollarSign size={18} />
               <span>Balance:</span>
-              <span>123 456 789,00 PLN</span>
-              <Button variant="outline" className="text-neutral-700">
+              <span
+                className={balance < 50000 ? "text-green-600" : "text-red-600"}
+              >
+                {formatNumber(balance, "pl-PL")} PLN
+              </span>
+              <Button
+                variant="outline"
+                className="text-neutral-700"
+                onClick={handleOnClick}
+              >
                 Refresh
               </Button>
             </div>
@@ -46,7 +120,8 @@ export default function App() {
               <Button
                 variant="outline"
                 size="icon"
-                className="text-neutral-700">
+                className="text-neutral-700"
+              >
                 <Settings size={18} />
               </Button>
             </div>
