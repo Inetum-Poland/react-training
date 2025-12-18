@@ -7,4 +7,17 @@ router.get("/account/balance", (req, res) => {
   res.json({ balance: randomBalance, format: "pl-PL" });
 });
 
+router.get("/settings", (req, res) => {
+  const userSettings = {
+    id: 1,
+    name: "Jane Doe",
+    email: "jane.doe@example.com",
+    language: "pl-PL",
+    theme: "light",
+    notifications: true,
+  };
+
+  res.json(userSettings);
+});
+
 export default router;

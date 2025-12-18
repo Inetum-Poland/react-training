@@ -1,10 +1,10 @@
-import { GoalIcon, InfoIcon, Menu } from "lucide-react";
+import { GoalIcon, InfoIcon } from "lucide-react";
 
 export default function LessonDetails() {
   return (
     <>
       <h1 className="text-2xl font-bold text-neutral-800">
-        Lekcja 1 – Wprowadzenie do Reacta, cz. 1
+        Lekcja 2 – Routing i podstrony w React
       </h1>
 
       <h2 className="text-xl font-semibold my-6 flex gap-4 items-center text-neutral-800">
@@ -12,18 +12,10 @@ export default function LessonDetails() {
         <span>Czego nauczysz się w tej lekcji?</span>
       </h2>
 
-      <ul>
-        <li>- Co to jest React</li>
-        <li>- Czym są komponenty w React</li>
-        <li>- Jak działają propsy</li>
-        <li>
-          - Podstawy JSX (className, props, listy, rendering, renderowanie
-          warunkowe, dynamiczne wartości)
-        </li>
-        <li>- Jak działa useState</li>
-        <li>- Jak działa useEffect</li>
-        <li>- Jak działa useContext</li>
-        <li>- Refaktor kodu i wydzielanie komponentów</li>
+      <ul className="list-disc pl-6">
+        <li>Jak działa routing</li>
+        <li>Jak utworzyć dynamiczne routingi z parametrami</li>
+        <li>Jak obsłużyć formularz zakupu kryptowaluty</li>
       </ul>
 
       <h2 className="text-xl font-semibold my-6 flex gap-4 items-center text-neutral-800">
@@ -31,100 +23,64 @@ export default function LessonDetails() {
         <span>Zadania do wykonania</span>
       </h2>
 
-      <p className=" bg-blue-200 p-4 rounded-md mb-6">
+      <p className="bg-blue-200 p-4 rounded-md mb-6">
         <InfoIcon size={16} className="inline mb-1 mr-2" />
-        Zadania będę wykonywać na bieżąco krok po kroku. Jeśli ktoś będzie
-        chętny, może przejąć kursor. Zachęcam także do równoległego odtwarzania
-        wszystkiego u siebie lokalnie.
+        Zadania będziemy realizować krok po kroku podczas livecodingu. Zachęcam
+        do równoległego odtwarzania wszystkiego u siebie lokalnie. Kod, który
+        widzisz, to stan finalny lekcji 1 – możesz usunąć niepotrzebne elementy,
+        takie jak <strong>Refresh</strong> i odświeżanie krypto co{" "}
+        <strong>10 sekund</strong>.
       </p>
 
-      <ul>
-        <li className="mb-4">
-          1. Do kwoty <strong>1 234 567,00 PLN</strong> przy balansie konta
-          dodaj klasę <strong>text-green-600</strong>.
+      <ul className="list-decimal pl-6 space-y-4">
+        <li>
+          Zmień menu boczne tak, aby zawierało trzy pozycje:{" "}
+          <strong>Dashboard</strong>, <strong>Giełda</strong>,{" "}
+          <strong>Ustawienia</strong>.
         </li>
-        <li className="mb-4">
-          2. Obok kwoty <strong>1 234 567,00 PLN</strong> dodaj przycisk z
-          napisem <i>Refresh</i>, do którego podepniesz <strong>onClick</strong>
-          . Po kliknięciu wygeneruj losową liczbę z zakresu{" "}
-          <strong>0–100000</strong> i wyświetl ją tymczasowo w{" "}
-          <strong>console.log</strong>.
+        <li>
+          Skonfiguruj <strong>React Router</strong> i dodaj routingi dla każdej
+          z powyższych podstron. Możesz użyć{" "}
+          <a href="https://tanstack.com/router/latest">
+            <strong>https://tanstack.com/router/latest</strong>
+          </a>
         </li>
-        <li className="mb-4">
-          3. Zmień wartość <strong>1 234 567,00 PLN</strong> za pomocą{" "}
-          <strong>useState</strong>, nasłuchując kliknięcia w poprzedni
-          przycisk. Wartość początkowa ma wynosić{" "}
-          <strong>1 234 567,00 PLN</strong>. Po kliknięciu zmień wyświetlaną
-          kwotę. Do formatowania kwoty użyj <strong>formatNumber</strong> z
-          utilsów.
+        <li>
+          Na stronie <strong>Dashboard</strong> wyświetl listę aktualnie
+          posiadanych kryptowalut. Do przechowywania danych utwórz customowy
+          hook lub kontekst. Danych na razie nigdzie nie zapisuj – niech znikają
+          po odświeżeniu strony. Routing nazwij <code>/dashboard</code>.
         </li>
-        <li className="mb-4">
-          4. Jeśli kwota jest niższa niż <strong>50 000,00</strong>, dodaj klasę{" "}
-          <strong>text-red-600</strong>. W przeciwnym przypadku pozostaw klasę{" "}
-          <strong>text-green-600</strong>. Przetestuj działanie, klikając
-          przycisk kilka razy.
+        <li>
+          Dla podstrony <strong>Giełda</strong> użyj endpointa{" "}
+          <code>GET http://localhost:3000/api/v1/crypto/list</code>, który
+          zwróci listę dostępnych kryptowalut. Ładuj dane po wejściu na
+          podstronę. Routing nazwij <code>/stock</code>.
         </li>
-        <li className="mb-4">
-          5. Dodaj <strong>onClick</strong> do ikony hamburgera
-          <Menu size={20} className="inline mx-2" /> w menu. Zrób toggle (z
-          false na true i odwrotnie) dla zmiennej <strong>compactMenu</strong>,
-          korzystając z <strong>useState</strong>. Jeśli zmienna ma wartość{" "}
-          <strong>true</strong>, zamiast napisu <i>React Training</i> w bocznym
-          menu pozostaw <i>RT</i>. Linki przerób tak, aby pozostała{" "}
-          <u>tylko ikonka bez tekstu</u>. Szerokość menu bocznego przy{" "}
-          <strong>true</strong> ustaw na <strong>w-32</strong>, w przeciwnym
-          wypadku pozostaw bez zmian. Przetestuj klikając ikonę.
+        <li>
+          Dodaj możliwość wejścia w szczegóły konkretnej kryptowaluty po{" "}
+          <strong>uuid</strong>. Na tej podstronie przygotuj formularz kupna.
+          Routing: <code>/stock/view/:uuid</code>.
         </li>
-        <li className="mb-4">
-          6. Utwórz obiekt dla menu bocznego. Każdy obiekt powinien zawierać{" "}
-          <strong>id, label, icon, href</strong>. Użyj <strong>.map</strong> do
-          wyświetlenia linków w menu. Tymczasowo po kliknięciu wyświetl dowolną
-          informację w <strong>console.log</strong>.
+        <li>
+          Formularz kupna powinien zawierać pola:{" "}
+          <strong>ilość jednostek</strong>, <strong>cena</strong> oraz przycisk{" "}
+          <i>Kup</i>. Po kliknięciu wyświetl dane w <strong>console.log</strong>
+          .
         </li>
-        <li className="mb-4">
-          7. Zmodyfikuj logikę tak, aby kliknięcie elementu menu ustawiało go
-          jako <strong>aktywny</strong> (tak jak w prawdziwej aplikacji – tylko
-          jeden aktywny link naraz).
+        <li>
+          Jeśli <strong>console.log</strong> wyświetla dane prawidłowo, to
+          odejmij kwotę od balansu i dodaj kupione krypto do dashboarda.
         </li>
-        <li className="mb-4">
-          8. Utwórz customowy komponent o nazwie{" "}
-          <strong>MenuItemLinkButton</strong> i zaimplementuj w nim bieżące
-          zachowanie. Komponent ma przyjmować obiekt jako props i zachowywać się
-          identycznie jak wcześniej.
+        <li>
+          Na stronie <strong>Ustawienia</strong> pobierz dane użytkownika z API{" "}
+          <code>GET http://localhost:3000/api/v1/user/settings</code> i wyświetl
+          je w prostym formularzu. Routing nazwij <code>/settings</code>.
         </li>
-        <li className="mb-4">
-          9. Zmodyfikuj komponent tak, aby na końcu tekstu dodawał dowolną
-          ikonkę przekazywaną jako <strong>children</strong>, np. <i>EyeIcon</i>
-          . Ikonka ma być widoczna tylko wtedy, gdy link jest aktywny.
+        <li>
+          Napraw breadcrumbs tak, aby pokazywały dobre napisy podczas przechodzenia pomiędzy stronami.
         </li>
-        <li className="mb-4">
-          10. Dodaj hook <strong>useEffect</strong> i wyświetl w nim dowolny
-          komunikat w <strong>console.log</strong>. Kliknij któryś przycisk i
-          sprawdź, co się stało.
-        </li>
-        <li className="mb-4">
-          11. Przerób logikę w <strong>useEffect</strong> tak, aby reagowała
-          wyłącznie na kliknięcie przycisku <strong>Refresh</strong>.
-        </li>
-        <li className="mb-4">
-          12. Po załadowaniu komponentu pobierz dane o stanie konta z API{" "}
-          <strong>
-            (GET http://localhost:3000/api/v1/user/account/balance)
-          </strong>{" "}
-          i zapisz sformatowany wynik w stanie komponentu (użyj{" "}
-          <strong>formatNumber</strong>).
-        </li>
-        <li className="mb-4">
-          13. Pobieraj dane o koncie automatycznie co <strong>5 sekund</strong>.
-        </li>
-        <li className="mb-4">
-          15. Utwórz kontekst dla całej aplikacji ze zmienną przechowującą
-          kwotę. Odświeżaj ją co <strong>10 sekund</strong>.
-        </li>
-        <li className="mb-4">
-          16. Wydziel komponenty na mniejsze, wykonaj refaktor. Usuń zbędne
-          komponenty.
-        </li>
+        <li>Wydziel komponenty na mniejsze i wykonaj ewentualny refaktor.</li>
       </ul>
     </>
   );
