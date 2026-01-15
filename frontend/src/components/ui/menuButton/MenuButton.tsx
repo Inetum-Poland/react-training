@@ -7,14 +7,12 @@ interface ButtonProps {
   item: MenuItem;
   handleClick: (item: MenuItem) => void;
   isCompact: boolean;
-  children?: ReactNode;
 }
 
 export function MenuButton({
   item,
   handleClick,
   isCompact,
-  children,
 }: ButtonProps) {
   const buttonClass = clsx(
     "cursor-pointer gap-2",
@@ -30,7 +28,6 @@ export function MenuButton({
     >
       {item.icon}
       {!isCompact && <span className="text-sm">{item.label}</span>}
-      {item.active && children}
     </Button>
   );
 }

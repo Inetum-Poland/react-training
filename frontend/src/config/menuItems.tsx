@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Home, Menu, Settings } from "lucide-react";
+import { ChartBarIcon, Home, Menu, Settings } from "lucide-react";
 
 export interface MenuItem {
   id: number;
@@ -12,23 +12,23 @@ export interface MenuItem {
 export const INITIAL_MENU_ITEMS: MenuItem[] = [
   {
     id: 1,
-    label: "Link 1",
+    label: "Dashboard",
     icon: <Home size={20} />,
-    href: "/",
+    href: "/dashboard",
     active: true,
   },
   {
     id: 2,
-    label: "Link 2",
-    icon: <Menu size={20} />,
-    href: "/",
+    label: "Giełda",
+    icon: <ChartBarIcon size={20} />,
+    href: "/stock",
     active: false,
   },
   {
     id: 3,
-    label: "Link 3",
+    label: "Ustawienia",
     icon: <Settings size={20} />,
-    href: "/",
+    href: "/settings",
     active: false,
   },
 ];

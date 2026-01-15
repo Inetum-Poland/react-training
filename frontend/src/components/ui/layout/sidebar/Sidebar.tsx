@@ -38,7 +38,6 @@ export default function Sidebar() {
             handleClick={handleMenuItemClick}
             isCompact={compactMenu}
           >
-            <EyeIcon size={20} />
           </MenuButton>
         ))}
       </nav>

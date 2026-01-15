@@ -1,13 +1,24 @@
-import LessonDetails from "./LessonDetails";
 import Layout from "./components/ui/layout/layout/Layout";
-import Card from "./components/ui/layout/card/Card";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router";
+import DashboardPage from "./routes/Dashboard";
+import SettingsPage from "./routes/Settings";
+import StockPage from "./routes/Stock";
+import StockItemPage from "./routes/StockItem";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Navigate to="/dashboard" replace /> },
+      { path: "dashboard", element: <DashboardPage /> },
+      { path: "stock", element: <StockPage /> },
+      { path: "stock/view/:uuid", element: <StockItemPage /> },
+      { path: "settings", element: <SettingsPage /> },
+    ],
+  },
+]);
 
 export default function App() {
-  return (
-    <Layout>
-      <Card>
-        <LessonDetails />
-      </Card>
-    </Layout>
-  );
+  return <RouterProvider router={router} />;
 }

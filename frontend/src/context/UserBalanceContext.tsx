@@ -37,8 +37,7 @@ export default function UserBalanceContextProvider({
   };
 
   useEffect(() => {
-    const interval = setInterval(fetchBalance, 1000);
-    return () => clearInterval(interval);
+    fetchBalance();
   }, []);
 
   const refresh = () => fetchBalance();
