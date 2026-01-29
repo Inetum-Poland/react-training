@@ -1,8 +1,8 @@
 import CryptoCard from "@/components/ui/cryptoCard/CryptoCard";
-import { useUserCrypto } from "@/hooks/useUserCrypto";
+import { cryptoList } from "@/context/CryptoListContext";
 
 export default function DashboardPage() {
-  const { userCrypto } = useUserCrypto();
+  const { userCrypto } = cryptoList();
 
   return (
     <>

@@ -49,11 +49,11 @@ export default function UserBalanceContextProvider({
   );
 }
 
-export function useBalance() {
+export function userBalance() {
   const ctx = useContext(BalanceContext);
   if (!ctx) {
     throw new Error(
-      "useBalance must be used within UserBalanceContextProvider"
+      "userBalance must be used within UserBalanceContextProvider"
     );
   }
   return ctx;

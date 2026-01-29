@@ -2,26 +2,36 @@ import { useParams } from "react-router-dom";
 import { formatNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button/Button";
 import { useState } from "react";
-import { useUserCrypto, type UserCryptoItem } from "@/hooks/useUserCrypto";
-import { useCryptoList } from "@/hooks/useCryptoList";
+import { InfoIcon } from "lucide-react";
+import { cryptoList } from "@/context/CryptoListContext";
+import { userCryptoList } from "@/context/UserCryptoContext";
+import { userBalance } from "@/context/UserBalanceContext";
 
 export default function StockItemPage() {
   const { uuid } = useParams();
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<number | undefined>();
 
-  const { addCryptoItem } = useUserCrypto();
+  const [isInputInvalid, setIsInvalid] = useState(false);
 
-  const { getById } = useCryptoList();
+  const { addCryptoItem } = cryptoList();
+
+  const { balance } = userBalance();
+
+  const { getById } = userCryptoList();
 
   if (!uuid) {
-    return <>Error!</>
+    return <>Error! Can't fetch {uuid}</>;
   }
 
   const item = getById(uuid);
 
+  if (!item) {
+    return <>Error! Can't fetch {uuid}</>;
+  }
+
   function onClick() {
-    if (!uuid || !item) return;
+    if (!uuid || !item || !amount) return;
 
     const payload = {
       uuid,
@@ -32,7 +42,42 @@ export default function StockItemPage() {
       amount,
     };
 
-    addCryptoItem(payload)
+    addCryptoItem(payload);
+  }
+
+  function isAmountWarning(): boolean {
+    if (!amount) return true;
+
+    return amount < 0;
+  }
+
+  function isCostWarning(): boolean {
+    if (!amount || !item || !balance) return false;
+
+    const totalCost = amount * item.price;
+
+    return totalCost >= balance;
+  }
+
+  function isSubmitDisabled(): boolean {
+    return isAmountWarning() || isCostWarning();
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.valueAsNumber;
+    if (!value) setAmount(undefined);
+
+    setAmount(value);
+
+    setIsInvalid(false);
+  }
+
+  function handleBlur() {
+    if (amount) {
+      setIsInvalid(false);
+    } else {
+      setIsInvalid(true);
+    }
   }
 
   return (
@@ -46,7 +91,7 @@ export default function StockItemPage() {
         <div className="mt-2">
           <span className="text-neutral-500 text-sm">Aktualna cena</span>
           <div className="text-2xl font-semibold text-emerald-600">
-            {item?.price && formatNumber(item?.price, 'pl-PL')} PLN
+            {item?.price && formatNumber(item?.price, "pl-PL")} PLN
           </div>
         </div>
 
@@ -58,21 +103,35 @@ export default function StockItemPage() {
               e.preventDefault();
               onClick();
             }}
-            className="flex flex-col gap-4">
+            className="flex flex-col gap-4"
+          >
             <div className="flex flex-col gap-1">
               <label className="text-sm text-neutral-600">Ilość</label>
               <input
                 type="number"
-                min="0"
-                step="0.0001"
-                value={amount}
-                onChange={(e) => setAmount(e.target.valueAsNumber)}
-                className="border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-900"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${isInputInvalid || isCostWarning() ? "border-red-500 focus:ring-red-500" : "border-neutral-300 focus:ring-neutral-900"}`}
                 placeholder="np. 0.5"
               />
             </div>
+            {isInputInvalid && (
+              <span className="p-3 bg-red-500 text-white rounded-lg flex">
+                <InfoIcon className="mr-3" /> Wpisz prawidłową wartość!
+              </span>
+            )}
+            {isCostWarning() && (
+              <span className="p-3 bg-red-500 text-white rounded-lg flex">
+                <InfoIcon className="mr-3" /> Nie posiadasz wystarczająco dużo
+                środków!
+              </span>
+            )}
 
-            <Button disabled={!amount} type="submit" className="w-full mt-4">
+            <Button
+              disabled={isSubmitDisabled()}
+              type="submit"
+              className="w-full"
+            >
               Kup
             </Button>
           </form>

@@ -1,8 +1,8 @@
 import CryptoCard from "@/components/ui/cryptoCard/CryptoCard";
-import { useCryptoList } from "@/hooks/useCryptoList";
+import { userCryptoList } from "@/context/UserCryptoContext";
 
 export default function StockPage() {
-  const { cryptoList } = useCryptoList();
+  const { cryptoList } = userCryptoList();
 
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

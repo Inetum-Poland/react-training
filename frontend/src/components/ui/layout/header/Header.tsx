@@ -2,10 +2,10 @@ import { formatNumber } from "@/lib/utils";
 import clsx from "clsx";
 import { BadgeDollarSign, Loader2, Settings } from "lucide-react";
 import { Button } from "../../button/Button";
-import { useBalance } from "@/context/UserBalanceContext";
+import { userBalance } from "@/context/UserBalanceContext";
 
 export default function Header() {
-  const { balance, refresh } = useBalance();
+  const { balance, refresh } = userBalance();
 
   const balanceClass = clsx(
     balance != null && balance < 50000 ? "text-green-600" : "text-red-600"
