@@ -4,6 +4,7 @@ import DashboardPage from "./routes/Dashboard";
 import SettingsPage from "./routes/Settings";
 import StockPage from "./routes/Stock";
 import StockItemPage from "./routes/StockItem";
+import InfoPage from "./routes/Info";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { path: "stock", element: <StockPage /> },
       { path: "stock/view/:uuid", element: <StockItemPage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "info", element: <InfoPage /> },
     ],
   },
 ]);

@@ -2,28 +2,51 @@ import { useParams } from "react-router-dom";
 import { formatNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button/Button";
 import { useState } from "react";
+import { useUserCrypto, type UserCryptoItem } from "@/hooks/useUserCrypto";
+import { useCryptoList } from "@/hooks/useCryptoList";
 
 export default function StockItemPage() {
   const { uuid } = useParams();
 
   const [amount, setAmount] = useState(0);
 
+  const { addCryptoItem } = useUserCrypto();
+
+  const { getById } = useCryptoList();
+
+  if (!uuid) {
+    return <>Error!</>
+  }
+
+  const item = getById(uuid);
+
   function onClick() {
-    console.log('click', amount)
+    if (!uuid || !item) return;
+
+    const payload = {
+      uuid,
+      symbol: item.symbol,
+      name: item.name,
+      price: item.price,
+      format: item.format,
+      amount,
+    };
+
+    addCryptoItem(payload)
   }
 
   return (
     <div>
       <div className="bg-white shadow-sm border border-neutral-200 rounded-xl p-6 flex flex-col gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-neutral-900">BITCOIN {uuid}</h1>
-          <p className="text-neutral-500 text-lg">BTC</p>
+          <h1 className="text-3xl font-bold text-neutral-900">{item?.name}</h1>
+          <p className="text-neutral-500 text-lg">{item?.symbol}</p>
         </div>
 
         <div className="mt-2">
           <span className="text-neutral-500 text-sm">Aktualna cena</span>
           <div className="text-2xl font-semibold text-emerald-600">
-            {formatNumber(1000, 'pl-PL')} PLN
+            {item?.price && formatNumber(item?.price, 'pl-PL')} PLN
           </div>
         </div>
 
