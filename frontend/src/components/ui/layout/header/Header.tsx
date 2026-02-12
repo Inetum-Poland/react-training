@@ -8,7 +8,7 @@ export default function Header() {
   const { balance, refresh } = useBalance();
 
   const balanceClass = clsx(
-    balance != null && balance < 50000 ? "text-green-600" : "text-red-600"
+    balance != null && balance < 50000 ? "text-green-600" : "text-red-600",
   );
 
   return (
@@ -29,8 +29,7 @@ export default function Header() {
             <Button
               variant="outline"
               className="text-neutral-700"
-              onClick={refresh}
-            >
+              onClick={refresh}>
               Refresh
             </Button>
           </>

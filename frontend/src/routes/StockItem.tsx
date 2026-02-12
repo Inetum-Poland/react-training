@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { formatNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button/Button";
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useUserCrypto } from "@/hooks/useUserCrypto";
 import Info from "@/components/ui/info/Info";
 import { useBalance } from "@/context/UserBalanceContext";
-import { userCryptoList } from "@/context/UserCryptoList";
+import { useUserCryptoList } from "@/context/UserCryptoListContext";
 
 export default function StockItemPage() {
   const { uuid } = useParams();
@@ -18,7 +18,7 @@ export default function StockItemPage() {
 
   const { addCryptoItem } = useUserCrypto();
 
-  const { getById } = userCryptoList();
+  const { getById } = useUserCryptoList();
 
   if (!uuid) {
     return <>Error!</>;
@@ -57,11 +57,11 @@ export default function StockItemPage() {
     return amountWarning() || balanceWarning();
   }
 
-  function handleOnChange(e: any) {
-    setAmount(e.target.value);
+  function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+    setAmount(Number(e.target.value));
   }
 
-  function handleOnBlur(e: any) {
+  function handleOnBlur() {
     setIsAmountTouched(true);
   }
 
@@ -88,8 +88,7 @@ export default function StockItemPage() {
               e.preventDefault();
               onClick();
             }}
-            className="flex flex-col gap-4"
-          >
+            className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <label className="text-sm text-neutral-600">Ilość</label>
               <input
@@ -107,8 +106,7 @@ export default function StockItemPage() {
             <Button
               disabled={isSubmitDisabled()}
               type="submit"
-              className="w-full mt-4"
-            >
+              className="w-full mt-4">
               Kup
             </Button>
           </form>

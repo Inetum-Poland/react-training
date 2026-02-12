@@ -1,32 +1,12 @@
+import { useEffect, useState, type ReactNode } from "react";
 import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
-
-export interface UserCryptoItem {
-  uuid: string;
-  symbol: string;
-  name: string;
-  price: number;
-  format: string;
-  amount: number;
-}
-
-interface UserCryptoListContextType {
-  cryptoList: UserCryptoItem[];
-  getById: (uuid: string) => void;
-}
+  UserCryptoListContext,
+  type UserCryptoItem,
+} from "./UserCryptoListContext";
 
 interface UserCryptoListContextProviderProps {
   children: ReactNode;
 }
-
-export const UserCryptoListContext = createContext<
-  UserCryptoListContextType | undefined
->(undefined);
 
 export default function UserCryptoListContextProvider({
   children,
@@ -58,15 +38,4 @@ export default function UserCryptoListContextProvider({
       {children}
     </UserCryptoListContext.Provider>
   );
-}
-
-export function userCryptoList() {
-  const ctx = useContext(UserCryptoListContext);
-
-  if (!ctx) {
-    throw new Error(
-      "userCryptoList must be used within UserCryptoListContextProvider",
-    );
-  }
-  return ctx;
 }
