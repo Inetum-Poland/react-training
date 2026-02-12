@@ -16,7 +16,8 @@ The React Compiler is not enabled on this template because of its impact on dev 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 ## TODO
-- Add context instead of hooks for useCrypto and useCryptoList
-- Use tanstack query
-- Add form validation
-- Create whiteboard
+- Add useForm to form
+- Add select, checkbox and additional fields
+- Add Cross field validation
+- Add ZOD validation
+- Add additional field (like TODO list)

@@ -4,7 +4,7 @@ export default function LessonDetails() {
   return (
     <>
       <h1 className="text-2xl font-bold text-neutral-800">
-        Lekcja 2 – Routing i podstrony w React
+        Lekcja 3 – Deep dive
       </h1>
 
       <h2 className="text-xl font-semibold my-6 flex gap-4 items-center text-neutral-800">
@@ -13,9 +13,9 @@ export default function LessonDetails() {
       </h2>
 
       <ul className="list-disc pl-6">
-        <li>Jak działa routing</li>
-        <li>Jak utworzyć dynamiczne routingi z parametrami</li>
-        <li>Jak obsłużyć formularz zakupu kryptowaluty</li>
+        <li>Jak używać react context</li>
+        <li>Jak używać tanstack query</li>
+        <li>Jak zrobić walidację formularza</li>
       </ul>
 
       <h2 className="text-xl font-semibold my-6 flex gap-4 items-center text-neutral-800">
@@ -34,53 +34,15 @@ export default function LessonDetails() {
 
       <ul className="list-decimal pl-6 space-y-4">
         <li>
-          Zmień menu boczne tak, aby zawierało trzy pozycje:{" "}
-          <strong>Dashboard</strong>, <strong>Giełda</strong>,{" "}
-          <strong>Ustawienia</strong>.
+          W pliku <strong>StockItem.tsx</strong> dodaj metodę do walidacji formularza, może się nazywać <strong>isSubmitDisabled</strong>. Zadaniem tej metody, jest sprawdzenie, czy podana wartość jest numeryczna, większa od zera, oraz czy mamy środki na koncie. Jeśli chcemy kupić coś za kwotę np. 100 000 zł a mamy balans 99 999 zł, to nie powinniśmy mieć takiej możliwości. Metoda powinna sprawdzać te warunki i w zależności od tego ustawiać <strong>disabled</strong> na przycisku formularza.
         </li>
-        <li>
-          Skonfiguruj <strong>React Router</strong> i dodaj routingi dla każdej
-          z powyższych podstron. Możesz użyć{" "}
-          <a href="https://tanstack.com/router/latest">
-            <strong>https://tanstack.com/router/latest</strong>
-          </a>
+         <li>
+          Nad przyciskiem dodaj informację <strong>Nie posiadasz wystarczająco dużo środków</strong> w przypadku, kiedy wybierzesz za dużą ilość kryptowaluty. Utwórz metodę pomocniczą <strong>isCostWarning</strong> a do pobrania stanu konta użyj <strong>useBalance</strong>.
         </li>
-        <li>
-          Na stronie <strong>Dashboard</strong> wyświetl listę aktualnie
-          posiadanych kryptowalut. Do przechowywania danych utwórz customowy
-          hook lub kontekst. Danych na razie nigdzie nie zapisuj – niech znikają
-          po odświeżeniu strony. Routing nazwij <code>/dashboard</code>.
-        </li>
-        <li>
-          Dla podstrony <strong>Giełda</strong> użyj endpointa{" "}
-          <code>GET http://localhost:3000/api/v1/crypto/list</code>, który
-          zwróci listę dostępnych kryptowalut. Ładuj dane po wejściu na
-          podstronę. Routing nazwij <code>/stock</code>.
-        </li>
-        <li>
-          Dodaj możliwość wejścia w szczegóły konkretnej kryptowaluty po{" "}
-          <strong>uuid</strong>. Na tej podstronie przygotuj formularz kupna.
-          Routing: <code>/stock/view/:uuid</code>.
-        </li>
-        <li>
-          Formularz kupna powinien zawierać pola:{" "}
-          <strong>ilość jednostek</strong>, <strong>cena</strong> oraz przycisk{" "}
-          <i>Kup</i>. Po kliknięciu wyświetl dane w <strong>console.log</strong>
-          .
-        </li>
-        <li>
-          Jeśli <strong>console.log</strong> wyświetla dane prawidłowo, to
-          odejmij kwotę od balansu i dodaj kupione krypto do dashboarda.
-        </li>
-        <li>
-          Na stronie <strong>Ustawienia</strong> pobierz dane użytkownika z API{" "}
-          <code>GET http://localhost:3000/api/v1/user/settings</code> i wyświetl
-          je w prostym formularzu. Routing nazwij <code>/settings</code>.
-        </li>
-        <li>
-          Napraw breadcrumbs tak, aby pokazywały dobre napisy podczas przechodzenia pomiędzy stronami.
-        </li>
-        <li>Wydziel komponenty na mniejsze i wykonaj ewentualny refaktor.</li>
+        <li>Dodaj czerwony border jeśli użytkownik kliknie i nic nie wpisze, oraz jeśli nie posiadasz wystarczająco dużo środków. Do tego celu użyj <strong>onBlur</strong> i dodaj nowy <strong>useState</strong> który będzie przechowywał stan błędu dla inputa.</li>
+        <li>Wydziel <strong>useCryptoList</strong> do oddzielnego context.</li>
+        <li>Wydziel <strong>useUserCrypto</strong> do oddzielnego context.</li>
+        <li>Dodaj tanstack query do obsługi API</li>
       </ul>
     </>
   );

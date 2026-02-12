@@ -2,20 +2,26 @@ import { useParams } from "react-router-dom";
 import { formatNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button/Button";
 import { useState } from "react";
-import { useUserCrypto, type UserCryptoItem } from "@/hooks/useUserCrypto";
-import { useCryptoList } from "@/hooks/useCryptoList";
+import { useUserCrypto } from "@/hooks/useUserCrypto";
+import Info from "@/components/ui/info/Info";
+import { useBalance } from "@/context/UserBalanceContext";
+import { userCryptoList } from "@/context/UserCryptoList";
 
 export default function StockItemPage() {
   const { uuid } = useParams();
 
+  const { balance } = useBalance();
+
   const [amount, setAmount] = useState(0);
+
+  const [isAmountTouched, setIsAmountTouched] = useState(false);
 
   const { addCryptoItem } = useUserCrypto();
 
-  const { getById } = useCryptoList();
+  const { getById } = userCryptoList();
 
   if (!uuid) {
-    return <>Error!</>
+    return <>Error!</>;
   }
 
   const item = getById(uuid);
@@ -32,7 +38,31 @@ export default function StockItemPage() {
       amount,
     };
 
-    addCryptoItem(payload)
+    addCryptoItem(payload);
+  }
+
+  function amountWarning() {
+    return isAmountTouched && amount <= 0;
+  }
+
+  function balanceWarning() {
+    if (!item || !balance) return;
+
+    const price = amount * item?.price;
+
+    return price > balance;
+  }
+
+  function isSubmitDisabled() {
+    return amountWarning() || balanceWarning();
+  }
+
+  function handleOnChange(e: any) {
+    setAmount(e.target.value);
+  }
+
+  function handleOnBlur(e: any) {
+    setIsAmountTouched(true);
   }
 
   return (
@@ -46,7 +76,7 @@ export default function StockItemPage() {
         <div className="mt-2">
           <span className="text-neutral-500 text-sm">Aktualna cena</span>
           <div className="text-2xl font-semibold text-emerald-600">
-            {item?.price && formatNumber(item?.price, 'pl-PL')} PLN
+            {item?.price && formatNumber(item?.price, "pl-PL")} PLN
           </div>
         </div>
 
@@ -58,21 +88,27 @@ export default function StockItemPage() {
               e.preventDefault();
               onClick();
             }}
-            className="flex flex-col gap-4">
+            className="flex flex-col gap-4"
+          >
             <div className="flex flex-col gap-1">
               <label className="text-sm text-neutral-600">Ilość</label>
               <input
                 type="number"
                 min="0"
                 step="0.0001"
-                value={amount}
-                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                onChange={handleOnChange}
+                onBlur={handleOnBlur}
                 className="border border-neutral-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neutral-900"
                 placeholder="np. 0.5"
               />
             </div>
-
-            <Button disabled={!amount} type="submit" className="w-full mt-4">
+            {amountWarning() && <Info label="Wpisz prawidłową wartość" />}
+            {balanceWarning() && <Info label="Niewystarczające środki" />}
+            <Button
+              disabled={isSubmitDisabled()}
+              type="submit"
+              className="w-full mt-4"
+            >
               Kup
             </Button>
           </form>
