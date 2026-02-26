@@ -21,3 +21,6 @@ If you are developing a production application, we recommend using TypeScript wi
 - Add Cross field validation
 - Add ZOD validation
 - Add additional field (like TODO list)
+
+- Add backend async validation 
+- Add dynamic fields (like survey)

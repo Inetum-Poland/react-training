@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ChartBarIcon, Home, Info, Settings } from "lucide-react";
+import { ChartBarIcon, FormInputIcon, Home, Info, Settings } from "lucide-react";
 
 export interface MenuItem {
   id: number;
@@ -36,6 +36,13 @@ export const INITIAL_MENU_ITEMS: MenuItem[] = [
     label: "Info",
     icon: <Info size={20} />,
     href: "/info",
+    active: false,
+  },
+  {
+    id: 5,
+    label: "Form",
+    icon: <FormInputIcon size={20} />,
+    href: "/form",
     active: false,
   }
 ];
