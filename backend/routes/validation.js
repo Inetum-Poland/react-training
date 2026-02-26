@@ -1,6 +1,7 @@
-const express = require("express");
+import { z } from "zod";
+import express from "express";
+
 const router = express.Router();
-const { z } = require("zod");
 
 const userSchema = z.object({
   firstName: z
@@ -25,7 +26,7 @@ const userSchema = z.object({
     .max(500, "Komentarz może mieć maksymalnie 500 znaków"),
 });
 
-router.post("/validateForm", (req, res) => {
+router.post("/form", (req, res) => {
   try {
     const result = userSchema.safeParse(req.body);
     if (result.success) {
@@ -38,4 +39,4 @@ router.post("/validateForm", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
