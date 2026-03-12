@@ -24,3 +24,9 @@ If you are developing a production application, we recommend using TypeScript wi
 
 - Add backend async validation 
 - Add dynamic fields (like survey)
+- Check value set in refine
+
+- use callback
+- use memo
+- use portal
+- redux (use reducer, zustand?)

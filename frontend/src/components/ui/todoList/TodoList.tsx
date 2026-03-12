@@ -21,7 +21,11 @@ export default function TodoList({ onAdd }: TodoListProps) {
   };
 
   const handleRemove = (id: number) => {
-    setTodos((prev) => prev.filter((_, i) => i !== id));
+    setTodos((prev) => {
+      const filtered = prev.filter((_, i) => i !== id);
+      if (onAdd) onAdd(filtered);
+      return filtered;
+    });
   };
 
   return (

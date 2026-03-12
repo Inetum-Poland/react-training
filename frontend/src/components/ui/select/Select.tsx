@@ -2,7 +2,7 @@ import type { AnyFieldApi } from "@tanstack/react-form";
 import FormErrorLabel from "../formErrorLabel/FormErrorLabel";
 import Label from "../label/Label";
 
-type SelectOption = {
+export type SelectOption = {
   value: string;
   label: string;
   disabled?: boolean;

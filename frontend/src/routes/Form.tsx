@@ -5,16 +5,11 @@ import { useForm } from "@tanstack/react-form";
 
 import * as z from "zod";
 import TodoList from "@/components/ui/todoList/TodoList";
+import Select, { type SelectOption } from "@/components/ui/select/Select";
+import Checkbox from "@/components/ui/checkbox/Checkbox";
 
 const userSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, "Imię musi mieć co najmniej 2 znaki")
-    .max(30, "Imię może mieć maksymalnie 30 znaków")
-    .regex(
-      /^[A-Za-zÀ-ÿ\-\s]+$/,
-      "Imię może zawierać tylko litery, myślniki i spacje",
-    ),
+  firstName: z.string().optional(),
   lastName: z
     .string()
     .min(2, "Nazwisko musi mieć co najmniej 2 znaki")
@@ -23,23 +18,66 @@ const userSchema = z.object({
       /^[A-Za-zÀ-ÿ\-\s]+$/,
       "Nazwisko może zawierać tylko litery, myślniki i spacje",
     ),
-  comment: z
-    .string()
-    .min(10, "Komentarz musi mieć co najmniej 10 znaków")
-    .max(500, "Komentarz może mieć maksymalnie 500 znaków"),
-});
+  comment: z.string().optional(),
+  role: z.enum(["junior", "mid", "senior"]),
+  consent: z.boolean().default(false),
+  todos: z.array(z.string())
+}).refine(
+  (data) =>
+    !data.consent ||
+    (data.comment && data.comment.length >= 10 && data.comment.length <= 500),
+  {
+    path: ["comment"],
+    message: "Komentarz musi mieć od 10 do 500 znaków, jeśli wyrażono zgodę."
+  },
+).refine(
+  (data) =>
+    data.role === "senior" ||
+    (data.firstName &&
+      data.firstName.length >= 3 &&
+      data.firstName.length <= 20),
+  {
+    path: ["firstName"],
+    message:
+      "Dla roli Senior pole Imię jest opcjonalne. Dla pozostałych ról podaj imię od 3 do 20 znaków.",
+  },
+);
 
 export default function FormPage() {
+  const selectOptions: SelectOption[] = [
+    { value: "junior", label: "Junior" },
+    { value: "mid", label: "Mid" },
+    { value: "senior", label: "Senior" },
+  ];
   const form = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
       comment: "",
+      role: "",
+      consent: false,
+      todos: [""],
     },
     validators: {
       onChange: userSchema,
+      onSubmit: async ({ value }) => {
+        const submitUrl = "http://localhost:3000/api/v1/validation/form";
+
+        const response = await fetch(submitUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(value),
+        });
+        const result = await response.json();
+        console.log(result);
+      },
     },
   });
+
+  function handleOnAdd(items: string[]) {
+    console.log('handleOnAdd', items);
+    form.setFieldValue("todos", items);
+  }
 
   return (
     <div className="flex flex-row gap-8 w-full">
@@ -50,7 +88,8 @@ export default function FormPage() {
             e.preventDefault();
             e.stopPropagation();
             form.handleSubmit();
-          }}>
+          }}
+        >
           <div className="space-y-4">
             <form.Field
               name="firstName"
@@ -61,11 +100,31 @@ export default function FormPage() {
               children={(field) => <Input field={field} label="Last name" />}
             />
             <form.Field
-              name="comment"
-              children={(field) => <Textarea field={field} label="Comment" />}
+              name="role"
+              children={(field) => (
+                <Select field={field} options={selectOptions} label="Role" />
+              )}
+            />
+            <form.Field
+              name="consent"
+              children={(field) => <Checkbox field={field} label="Consent" />}
             />
           </div>
-
+          <form.Subscribe
+            selector={(state) => [state.values.consent]}
+            children={([consent]) => (
+              <>
+                {consent ? (
+                  <form.Field
+                    name="comment"
+                    children={(field) => (
+                      <Textarea field={field} label="Comment" />
+                    )}
+                  />
+                ) : form.setFieldValue("comment", "")}
+              </>
+            )}
+          />
           <form.Subscribe
             selector={(state) => [
               state.canSubmit,
@@ -84,7 +143,8 @@ export default function FormPage() {
                   onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.preventDefault();
                     form.reset();
-                  }}>
+                  }}
+                >
                   Reset
                 </Button>
                 {isValid && (
@@ -119,7 +179,7 @@ export default function FormPage() {
         </form>
       </div>
       <div className="flex-1">
-        <TodoList />
+        <TodoList onAdd={handleOnAdd}/>
       </div>
     </div>
   );
