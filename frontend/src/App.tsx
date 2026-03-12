@@ -6,6 +6,9 @@ import StockPage from "./routes/Stock";
 import StockItemPage from "./routes/StockItem";
 import InfoPage from "./routes/Info";
 import FormPage from "./routes/Form";
+import UseCallbackDemoPage from "./routes/UseCallbackDemo";
+import UseMemoDemoPage from "./routes/UseMemoDemo";
+import CreatePortalDemoPage from "./routes/createPortalDemo";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +21,10 @@ const router = createBrowserRouter([
       { path: "stock/view/:uuid", element: <StockItemPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "info", element: <InfoPage /> },
-      { path: "form", element: <FormPage /> }
+      { path: "form", element: <FormPage /> },
+      { path: "use-callback", element: <UseCallbackDemoPage /> },
+      { path: "use-memo", element: <UseMemoDemoPage /> },
+      { path: "create-portal", element: <CreatePortalDemoPage /> },
     ],
   },
 ]);
