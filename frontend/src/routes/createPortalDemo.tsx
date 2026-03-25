@@ -1,4 +1,6 @@
+import Modal from "@/components/ui/modal/Modal";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 export default function CreatePortalDemoPage() {
   const [open, setOpen] = useState(false);
@@ -38,6 +40,24 @@ export default function CreatePortalDemoPage() {
           Kliknij przycisk, aby otworzyć modal.
         </div>
       </div>
+      {open &&
+      createPortal(
+        <Modal
+          header="Przykładowy nagłówek 123"
+          body="To jest przykładowa treść modala."
+          onClose={() => setOpen(false)}
+        />,
+        document.getElementById("modal")!,
+      )}
+      {open &&
+      createPortal(
+        <Modal
+          header="Przykładowy nagłówek 456"
+          body="To jest przykładowa treść modala."
+          onClose={() => setOpen(false)}
+        />,
+        document.getElementById("modal")!,
+      )}
       <div className="w-[350px] rounded-lg p-6 text-sm bg-gray-200">
         <h2 className="font-semibold mb-2">Instrukcja</h2>
         <p className="text-justify mb-4">
@@ -73,6 +93,7 @@ export default function CreatePortalDemoPage() {
           </div>
         )}
       </div>
+      <div id="modal"></div>
     </div>
   );
 }

@@ -28,5 +28,5 @@ If you are developing a production application, we recommend using TypeScript wi
 
 - use callback
 - use memo
-- use portal
+- create portal
 - redux (use reducer, zustand?)

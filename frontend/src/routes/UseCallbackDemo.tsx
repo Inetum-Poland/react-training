@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button/Button";
 import Search from "@/components/ui/search/Search";
 import { INITIAL_USERS } from "@/lib/users.mock";
@@ -8,14 +8,13 @@ export default function UseCallbackDemoPage() {
   const [users, setUsers] = useState(INITIAL_USERS);
   const [search, setSearch] = useState("");
 
-  const handleSearch = (value: string) => {
-    console.log("handleSearch");
+  const handleSearch = useCallback((value: string) => {
     const filteredUsers = INITIAL_USERS.filter((user) =>
       user.name.toLowerCase().includes(value),
     );
     setSearch(value);
     setUsers(filteredUsers);
-  };
+  }, []);
 
   const handleShuffle = () => {
     console.log("handleShuffle");
@@ -46,7 +45,8 @@ export default function UseCallbackDemoPage() {
             users.map((user) => (
               <li
                 key={user.id}
-                className="flex items-center gap-4 px-4 py-3 bg-background hover:bg-accent/40 transition-colors">
+                className="flex items-center gap-4 px-4 py-3 bg-background hover:bg-accent/40 transition-colors"
+              >
                 <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold">
                   {getInitials(user.name)}
                 </div>
