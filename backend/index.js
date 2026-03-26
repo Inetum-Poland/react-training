@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import cryptoRoutes from "./routes/crypto.js";
 import validationRoutes from "./routes/validation.js";
+import postsRoutes from "./routes/posts.js";
 
 const app = express();
 app.use(cors());
@@ -15,5 +16,6 @@ app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/user`, userRoutes);
 app.use(`${API_PREFIX}/crypto`, cryptoRoutes);
 app.use(`${API_PREFIX}/validation`, validationRoutes);
+app.use(`${API_PREFIX}/posts`, postsRoutes);
 
 app.listen(3000, () => console.log("Mock auth server running on port 3000"));
