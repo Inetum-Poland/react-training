@@ -54,9 +54,9 @@ export const INITIAL_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: 6,
-    label: "Feed",
+    label: "Reducer",
     icon: <ScanEyeIcon size={20} />,
-    href: "/feed",
+    href: "/reducer",
     active: false,
   },
 ];

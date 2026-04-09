@@ -5,13 +5,16 @@ import UserBalanceContextProvider from "./context/UserBalance.tsx";
 import UserCryptoListContextProvider from "./context/UserCryptoList.tsx";
 import store from "./store.ts";
 import { Provider } from "react-redux";
+import { UserStateProvider } from "./context/UserStateContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <UserBalanceContextProvider>
-      <UserCryptoListContextProvider>
-        <App />
-      </UserCryptoListContextProvider>
-    </UserBalanceContextProvider>
+    <UserStateProvider>
+      <UserBalanceContextProvider>
+        <UserCryptoListContextProvider>
+          <App />
+        </UserCryptoListContextProvider>
+      </UserBalanceContextProvider>
+    </UserStateProvider>
   </Provider>,
 );

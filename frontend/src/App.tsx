@@ -10,6 +10,7 @@ import UseCallbackDemoPage from "./routes/UseCallbackDemo";
 import UseMemoDemoPage from "./routes/UseMemoDemo";
 import CreatePortalDemoPage from "./routes/createPortalDemo";
 import FeedPage from "./routes/FeedPage";
+import ReducerDemoPage from "./routes/ReducerDemoPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
       { path: "use-memo", element: <UseMemoDemoPage /> },
       { path: "create-portal", element: <CreatePortalDemoPage /> },
       { path: "feed", element: <FeedPage /> },
+      { path: "reducer", element: <ReducerDemoPage /> },
     ],
   },
 ]);
