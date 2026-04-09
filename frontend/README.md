@@ -30,3 +30,4 @@ If you are developing a production application, we recommend using TypeScript wi
 - use memo
 - create portal
 - redux (use reducer, zustand?)
+- use reducer reactowy

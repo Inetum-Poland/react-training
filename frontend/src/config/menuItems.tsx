@@ -54,23 +54,9 @@ export const INITIAL_MENU_ITEMS: MenuItem[] = [
   },
   {
     id: 6,
-    label: "DEMO - useCallback",
+    label: "Feed",
     icon: <ScanEyeIcon size={20} />,
-    href: "/use-callback",
-    active: false,
-  },
-  {
-    id: 7,
-    label: "DEMO - useMemo",
-    icon: <ScanEyeIcon size={20} />,
-    href: "/use-memo",
-    active: false,
-  },
-  {
-    id: 8,
-    label: "DEMO - createPortal",
-    icon: <ScanEyeIcon size={20} />,
-    href: "/create-portal",
+    href: "/feed",
     active: false,
   },
 ];
